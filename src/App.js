@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import ChessBoard from './components/ChessBoard';
+import ChessGame from './components/ChessGame';
 
 const App = () => {
   return (
     <AppContainer>
-      <ChessBoard />
+      <ChessGame />
     </AppContainer>
   );
 };

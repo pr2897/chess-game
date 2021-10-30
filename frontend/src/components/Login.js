@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory, Redirect } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import API from '../services/api';
@@ -18,7 +18,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    API.post('login', {
+    API.post('/login', {
       email,
       password,
     })
@@ -31,12 +31,21 @@ const Login = () => {
         history.push('/play');
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.message);
+        if (error.message.indexOf('401') !== -1)
+          alert('Email or Password Incorrect!');
+        else alert('Something went Wrong, Try Again!');
       });
   };
 
   return (
     <LoginContainer>
+      <div>
+        <h2>For testing Purpose</h2>
+        <h3>Email id: "user@example.com", , </h3>
+        <h3>Password: "password@123"</h3>
+      </div>
+
       <fieldset>
         <legend>Login Here</legend>
         <div className='loginForm'>

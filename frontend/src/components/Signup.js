@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import API from '../services/api';
 
@@ -48,18 +48,37 @@ const SignupContainer = styled.div`
   }
 `;
 
-const Signup = () => {
+const Signup = (props) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
+  const history = useHistory();
+
+  useState(() => {
+    if (localStorage.getItem('token')) history.push('/play');
+  }, []);
+
   const handleSignup = (e) => {
     e.preventDefault();
 
+    if (password !== passwordConfirm) return alert('Password did not match');
+
     API.post('/signup', { name, email, password, passwordConfirm })
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        console.log(res.data);
+        localStorage.setItem('token', res.data.token);
+        history.push('/play');
+        alert('User Created');
+      })
+      .catch((err) => {
+        if (err.message.indexOf('400') !== -1) {
+          alert('Email already registered. Try Another.');
+        } else {
+          alert('Something went wrong!');
+        }
+      });
   };
 
   return (

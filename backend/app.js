@@ -15,8 +15,9 @@ app.use(morgan("dev"));
 //routes
 
 app.use("/api/v1", userRouter);
+
 app.all("*", (req, res, next) => {
-  next(
+  return next(
     new AppError(
       `This Resources ${req.originalUrl} doesn't exists on this server!`,
       404
@@ -27,6 +28,13 @@ app.all("*", (req, res, next) => {
 //error handling
 app.use((err, req, res, next) => {
   console.log(err);
+
+  if (err.code === 11000) {
+    return res.status(400).json({
+      status: "error",
+      message: "Email Already registered. Try Again.",
+    });
+  }
 
   err.statusCode = err.statusCode || 500;
   err.message = err.message || "Something Went Wrong";

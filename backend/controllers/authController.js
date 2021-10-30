@@ -11,6 +11,7 @@ const getToken = (id) => {
   });
 };
 
+//Register User
 exports.signup = catchAsync(async (req, res, next) => {
   const { name, email, password, passwordConfirm } = req.body;
   const newUser = await User.create({
@@ -33,6 +34,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   next();
 });
 
+//Login user
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 

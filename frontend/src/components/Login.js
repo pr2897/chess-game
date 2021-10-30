@@ -23,8 +23,10 @@ const Login = () => {
       password,
     })
       .then(function ({ data }) {
+        console.log(data.data);
         const token = data.token;
         localStorage.setItem('token', token);
+        // localStorage.setItem('email', data.data.email);
         setPassword('');
         setEmail('');
         // <Redirect to='/play' />;

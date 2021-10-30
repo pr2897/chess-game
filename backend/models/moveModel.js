@@ -7,13 +7,10 @@ const tileSchema = new mongoose.Schema({
 });
 
 const moveSchema = new mongoose.Schema({
-  move: [
-    {
-      intialState: {
-        type: [[tileSchema]],
-      },
-    },
-  ],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 module.exports = mongoose.model("ChessMove", userSchema);

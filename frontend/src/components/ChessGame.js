@@ -15,6 +15,7 @@ const style = {
   padding: '0.5em',
   borderRadius: '0.5rem',
   cursor: 'Pointer',
+  margin: '20px',
 };
 
 const ChessGame = (props) => {
@@ -36,8 +37,15 @@ const ChessGame = (props) => {
   }, [history]);
 
   return (
-    <div>
-      <button style={style} onClick={handleLogout}>
+    <div
+      style={{
+        border: '2px solid red',
+        borderRadius: '10px',
+        background: 'blue',
+      }}
+    >
+      <p style={style}>Hi {}</p>
+      <button style={{ ...style, marginTop: '4rem' }} onClick={handleLogout}>
         Logout
       </button>
       <Board position={position} setPosition={setPosition} />;

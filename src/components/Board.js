@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React from 'react';
+import styled from 'styled-components/macro';
 import Tile from './Tile';
 
 //  ==================>> Styled Components <<========================
@@ -15,7 +15,7 @@ const BoardContainer = styled.div`
 
 //  ==================>> CHESSBOARD COMPONENTS <<========================
 
-const Board = ({ position }) => {
+const Board = ({ position, setPosition }) => {
   const horizontal_axis = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   const vertical_axis = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -45,13 +45,18 @@ const Board = ({ position }) => {
         return chessRow.map((peice) => {
           ++col;
           toggleFlag = !toggleFlag;
-
+          const boardLoc = getBoardPosition(row, col);
           return (
             <Tile
+              className='peice'
               peice={peice}
-              key={getBoardPosition(row, col)}
+              key={boardLoc}
               tileColor={toggleFlag ? whiteTile : blackTile}
-            ></Tile>
+              data-position={boardLoc}
+              _xy={boardLoc}
+              position={position}
+              setPosition={setPosition}
+            />
           );
         });
       })}

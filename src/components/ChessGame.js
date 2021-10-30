@@ -1,13 +1,17 @@
 import React from 'react';
-import ChessBoard from './Board';
-import Chess from 'chess.js';
+import Board from './Board';
+// import Chess from 'chess.js';
 import useChess from '../hooks/useChess';
 
-const chess = new Chess();
+//validate chess move and then movePosition
+// const chess = new Chess();
+// let res = chess.move({ from: 'a2', to: 'a3' });
+// console.log(chess.ascii(), res);
 
 const ChessGame = () => {
   const [position, setPosition] = useChess();
-  return <ChessBoard position={position} />;
+
+  return <Board position={position} setPosition={setPosition} />;
 };
 
 export default ChessGame;

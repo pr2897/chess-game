@@ -1,5 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
+
+import move from '../utils/convertToIndex';
 
 //  b -> BLACK peice    B -> WHITE peice
 
@@ -17,10 +19,28 @@ const peice_image = {
   r: 'images/rook_b.png',
   R: 'images/rook_w.png',
 };
-
-const Tile = ({ peice = null, tileColor }) => {
+const myMove = { from: '', to: '' };
+const Tile = ({ peice = null, tileColor, _xy, position, setPosition }) => {
   return (
-    <Box style={tileColor}>
+    <Box
+      style={tileColor}
+      draggable={false}
+      id={`${_xy}`}
+      position={position}
+      onDragStart={(e) => (myMove.from = e.currentTarget.id)}
+      onDragEnd={(e) => console.log(`[End] ${e.currentTarget.id}`)}
+      onDragOver={(e) => e.preventDefault()}
+      onDragEnter={(e) => {
+        e.preventDefault(e);
+        console.log(`[Enter] ${e.currentTarget.id}`);
+      }}
+      onDragLeave={(e) => console.log(`[Leave] ${e.currentTarget.id}`)}
+      onDrop={(e) => {
+        myMove.to = e.currentTarget.id;
+        console.log(myMove);
+        move(position, setPosition, myMove.from, myMove.to);
+      }}
+    >
       {peice && peice !== '.' && (
         <Item src={peice_image[peice]} alt={`chess-peice`} />
       )}

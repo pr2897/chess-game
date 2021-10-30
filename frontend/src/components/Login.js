@@ -1,6 +1,72 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
+
+import API from '../services/api';
+
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  let history = useHistory();
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      history.push('/play');
+    }
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    API.post('login', {
+      email,
+      password,
+    })
+      .then(function ({ data }) {
+        const token = data.token;
+        localStorage.setItem('token', token);
+        setPassword('');
+        setEmail('');
+        // <Redirect to='/play' />;
+        history.push('/play');
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  return (
+    <LoginContainer>
+      <fieldset>
+        <legend>Login Here</legend>
+        <div className='loginForm'>
+          <form onSubmit={handleSubmit}>
+            <input
+              type='text'
+              id='email'
+              value={email}
+              placeholder={'Enter Email Here'}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type='password'
+              id='password'
+              value={password}
+              placeholder={'Enter Password Here'}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <input type='submit' value='Login' />
+          </form>
+        </div>
+        <div className='signup'>
+          New User? <Link to='/signup'>Sign Up Here</Link>
+        </div>
+      </fieldset>
+    </LoginContainer>
+  );
+};
+
+export default Login;
 
 const LoginContainer = styled.div`
   width: 20rem;
@@ -46,38 +112,3 @@ const LoginContainer = styled.div`
     }
   }
 `;
-
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  return (
-    <LoginContainer>
-      <fieldset>
-        <legend>Login Here</legend>
-        <div className='loginForm'>
-          <input
-            type='text'
-            id='email'
-            value={email}
-            placeholder={'Enter Email Here'}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type='password'
-            id='password'
-            value={password}
-            placeholder={'Enter Password Here'}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <input type='submit' value='Login' />
-        </div>
-        <div className='signup'>
-          New User? <Link to='/signup'>Sign Up Here</Link>
-        </div>
-      </fieldset>
-    </LoginContainer>
-  );
-};
-
-export default Login;

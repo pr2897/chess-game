@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import API from '../services/api';
 
 const SignupContainer = styled.div`
   width: 20rem;
@@ -51,37 +52,56 @@ const Signup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+
+    API.post('/signup', { name, email, password, passwordConfirm })
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <SignupContainer>
       <fieldset>
         <legend>Signup Here</legend>
         <div className='SignupForm'>
-          <input
-            type='text'
-            id='name'
-            value={name}
-            placeholder={'Enter Name Here'}
-            onChange={(e) => setName(e.target.value)}
-          />
+          <form onSubmit={handleSignup}>
+            <input
+              type='text'
+              id='name'
+              value={name}
+              placeholder={'Enter Name Here'}
+              onChange={(e) => setName(e.target.value)}
+            />
 
-          <input
-            type='text'
-            id='email'
-            value={email}
-            placeholder={'Enter Email Here'}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+            <input
+              type='text'
+              id='email'
+              value={email}
+              placeholder={'Enter Email Here'}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-          <input
-            type='password'
-            id='password'
-            value={password}
-            placeholder={'Enter Password Here'}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+            <input
+              type='password'
+              id='password'
+              value={password}
+              placeholder={'Enter Password Here'}
+              onChange={(e) => setPassword(e.target.value)}
+            />
 
-          <input type='submit' value='Signup' />
+            <input
+              type='password'
+              id='passwordConfirm'
+              value={passwordConfirm}
+              placeholder={'Enter Password Here'}
+              onChange={(e) => setPasswordConfirm(e.target.value)}
+            />
+
+            <input type='submit' value='Signup' />
+          </form>
         </div>
 
         <div className='signup'>

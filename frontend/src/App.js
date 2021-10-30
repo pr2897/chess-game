@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import { Route, Switch } from 'react-router-dom';
+import { Switch, Route, useHistory, Redirect } from 'react-router-dom';
 import ChessGame from './components/ChessGame';
 import Login from './components/Login';
 import Signup from './components/Signup.js';
@@ -9,7 +9,7 @@ const App = () => {
   return (
     <Switch>
       <AppContainer>
-        <Route path='/play' exact>
+        <Route path='/play'>
           <ChessGame />
         </Route>
         <Route path='/' exact>

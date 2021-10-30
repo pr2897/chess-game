@@ -1,12 +1,25 @@
 import React from 'react';
 import styled from 'styled-components/macro';
+import { Route, Switch } from 'react-router-dom';
 import ChessGame from './components/ChessGame';
+import Login from './components/Login';
+import Signup from './components/Signup.js';
 
 const App = () => {
   return (
-    <AppContainer>
-      <ChessGame />
-    </AppContainer>
+    <Switch>
+      <AppContainer>
+        <Route path='/play' exact>
+          <ChessGame />
+        </Route>
+        <Route path='/' exact>
+          <Login />
+        </Route>
+        <Route path='/signup' exact>
+          <Signup />
+        </Route>
+      </AppContainer>
+    </Switch>
   );
 };
 
